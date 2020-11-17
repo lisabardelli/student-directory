@@ -16,14 +16,16 @@ def input_students
   end
 
   def print(students)
-    students.each.with_index(1) do |student,index|
-      name_student = (student[:name]).to_s
-      length_name_student = name_student.length
-      if length_name_student.to_i <12
-        puts "#{index}. #{student[:name]} (#{student[:cohort]} cohort)"
-        end
+    count_student = 0
+    tot_student = students.count
+    while count_student < tot_student
+      (0...students.length).each do |i|
+        student = students[i]
+        puts "#{student[:name]} (#{student[:cohort]} cohort)"
+        count_student += 1
+      end
     end
-end
+    end
 
   def print_footer(students)
     puts "Overall, we have #{students.count} great students"
