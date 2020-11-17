@@ -6,16 +6,26 @@ end
 
 def input_students
     students = []
+    months = ["january",'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december']
     puts "Please enter the names of the students"
     puts "To finish, just hit return twice"
     name = gets.chomp
+    while name.empty?
+    puts "Please enter the names of the students"
+    name = gets.chomp
+    end
 
     while !name.empty? do
-        puts 'Please enter his/her hobbies'
-        hobbies = gets
-        puts 'Please enter his/her country of birth'
-        country = gets
-        students << { name: name, cohort: :november, hobbies: hobbies.chomp, country_of_birth: country.chomp }
+    puts 'Please enter his/her cohort'
+    cohort = gets.chomp
+        if cohort.empty?
+            cohort = 'november'
+        end
+      while !months.include? cohort.chomp.downcase
+        puts "There must be a typo, please enter the cohort"
+        cohort = gets
+      end
+      students << { name: name, cohort: cohort.chomp }
       puts "Now we have #{students.count} students".center(60)
       name = gets.chomp
     end
@@ -28,7 +38,7 @@ def print(students)
   while count_student < tot_student
     (0...students.length).each do |i|
       student = students[i]
-      puts "#{student[:name]} (#{student[:cohort]} cohort). He/she likes #{student[:hobbies]} and is from #{student[:country_of_birth]}."
+      puts "#{student[:name]} (#{student[:cohort]} cohort).".center(60)
       count_student += 1
     end
   end
