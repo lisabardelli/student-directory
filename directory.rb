@@ -1,6 +1,10 @@
-def print_header
-  puts 'The students of Makers Academy'.center(60)
-  puts '-------------'.center(60)
+def print_header(students)
+    if students.count > 0
+        puts 'The students of Makers Academy'.center(60)
+        puts '-------------'.center(60)
+    else
+        puts 'No students in the Makers Academy'
+    end
 end
 
 
@@ -10,10 +14,10 @@ def input_students
     puts "Please enter the names of the students"
     puts "To finish, just hit return twice"
     name = gets.gsub("\n", "")
-    while name.empty?
-    puts "Please enter the names of the students"
-    name = gets.gsub("\n", "")
-    end
+    # while name.empty?
+    # puts "Please enter the names of the students"
+    # name = gets.gsub("\n", "")
+    # end
 
     while !name.empty? do
     puts 'Please enter his/her cohort'
@@ -52,6 +56,9 @@ end
 end
 
 def print_footer(students)
+    if students.count<1
+        return
+    end
     if students.count<2
     puts "Overall, we have #{students.count} great student".center(60)
     else
@@ -59,6 +66,6 @@ def print_footer(students)
     end
   end
 students = input_students
-print_header
+print_header(students)
 print(students)
 print_footer(students)
