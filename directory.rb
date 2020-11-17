@@ -15,11 +15,12 @@ def input_students
     students
   end
 
-def print(students)
-    students.each do |student|
-      puts "#{student[:name]} (#{student[:cohort]} cohort)"
+  def print(students)
+    students.each.with_index(1) do |student,index|
+      name_student = (student[:name]).to_s
+      puts "#{index}. #{student[:name]} (#{student[:cohort]} cohort)"
     end
-  end
+end
 
   def print_footer(students)
     puts "Overall, we have #{students.count} great students"
