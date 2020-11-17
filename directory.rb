@@ -1,6 +1,6 @@
 def print_header
-  puts 'The students of Makers Academy'
-  puts '-------------'
+  puts 'The students of Makers Academy'.center(60)
+  puts '-------------'.center(60)
 end
 
 
@@ -16,7 +16,7 @@ def input_students
         puts 'Please enter his/her country of birth'
         country = gets
         students << { name: name, cohort: :november, hobbies: hobbies.chomp, country_of_birth: country.chomp }
-      puts "Now we have #{students.count} students"
+      puts "Now we have #{students.count} students".center(60)
       name = gets.chomp
     end
     students
@@ -35,7 +35,7 @@ def print(students)
 end
 
 def print_footer(students)
-  puts "Overall, we have #{students.count} great students"
+  puts "Overall, we have #{students.count} great students".center(60)
 end
 students = input_students
 print_header
