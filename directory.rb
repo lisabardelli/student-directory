@@ -18,8 +18,8 @@ def input_students
   def print(students)
     students.each.with_index(1) do |student,index|
       name_student = (student[:name]).to_s
-      letter = 'l'
-      if name_student.start_with?('l') || name_student.start_with?('L')
+      length_name_student = name_student.length
+      if length_name_student.to_i <12
         puts "#{index}. #{student[:name]} (#{student[:cohort]} cohort)"
         end
     end
