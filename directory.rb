@@ -26,22 +26,17 @@ def input_students
         cohort = gets
       end
       students << { name: name, cohort: cohort.chomp }
+      if students.count<2
+        puts "Now we have #{students.count} student".center(60)
+      else
       puts "Now we have #{students.count} students".center(60)
+      end
       name = gets.chomp
     end
     students
   end
 
 def print(students)
-#   count_student = 0
-#   tot_student = students.count
-#   while count_student < tot_student
-#     (0...students.length).each do |i|
-#       student = students[i]
-#       puts "#{student[:name]} (#{student[:cohort]} cohort).".center(60)
-#       count_student += 1
-#     end
-#   end
 cohorts_array = []
     students_by_cohort = {}
   students.each do |student_details|
@@ -57,8 +52,12 @@ end
 end
 
 def print_footer(students)
-  puts "Overall, we have #{students.count} great students".center(60)
-end
+    if students.count<2
+    puts "Overall, we have #{students.count} great student".center(60)
+    else
+    puts "Overall, we have #{students.count} great students".center(60)
+    end
+  end
 students = input_students
 print_header
 print(students)
