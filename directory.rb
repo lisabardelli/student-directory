@@ -33,15 +33,27 @@ def input_students
   end
 
 def print(students)
-  count_student = 0
-  tot_student = students.count
-  while count_student < tot_student
-    (0...students.length).each do |i|
-      student = students[i]
-      puts "#{student[:name]} (#{student[:cohort]} cohort).".center(60)
-      count_student += 1
+#   count_student = 0
+#   tot_student = students.count
+#   while count_student < tot_student
+#     (0...students.length).each do |i|
+#       student = students[i]
+#       puts "#{student[:name]} (#{student[:cohort]} cohort).".center(60)
+#       count_student += 1
+#     end
+#   end
+cohorts_array = []
+    students_by_cohort = {}
+  students.each do |student_details|
+    if    students_by_cohort.key?(student_details[:cohort])
+        students_by_cohort[student_details[:cohort]].<< ", #{student_details[:name]}"
+    else
+        students_by_cohort[student_details[:cohort]] = (student_details[:name])
     end
-  end
+end
+students_by_cohort.each do |key, value|
+    puts "In the #{key} cohort, there is/are the following student/s #{value}"
+end
 end
 
 def print_footer(students)
