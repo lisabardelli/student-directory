@@ -9,15 +9,15 @@ def input_students
     months = ["january",'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december']
     puts "Please enter the names of the students"
     puts "To finish, just hit return twice"
-    name = gets.chomp
+    name = gets.gsub("\n", "")
     while name.empty?
     puts "Please enter the names of the students"
-    name = gets.chomp
+    name = gets.gsub("\n", "")
     end
 
     while !name.empty? do
     puts 'Please enter his/her cohort'
-    cohort = gets.chomp
+    cohort = gets.gsub("\n", "")
         if cohort.empty?
             cohort = 'november'
         end
