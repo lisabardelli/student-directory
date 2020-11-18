@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 @students = []
 def print_menu
   puts '1. Input the students'
@@ -16,7 +18,7 @@ end
 def interactive_menu
   loop do
     print_menu
-    process(STDIN.gets.chomp)
+    process($stdin.gets.chomp)
   end
 end
 
@@ -54,24 +56,27 @@ def input_students
   months = %w[january february march april may june july august september october november december]
   puts 'Please enter the names of the students'
   puts 'To finish, just hit return twice'
-  name = STDIN.gets.gsub("\n", '')
+  name = $stdin.gets.gsub("\n", '')
 
   until name.empty?
-
     puts 'Please enter his/her cohort'
-    cohort = STDIN.gets.gsub("\n", '')
+    cohort = $stdin.gets.gsub("\n", '')
     cohort = 'November' if cohort.empty?
     until months.include? cohort.chomp.downcase
       puts 'There must be a typo, please enter the cohort'
       cohort = gets
     end
     add_student(name, cohort.chomp)
-    if @students.count < 2
-      puts "Now we have #{@students.count} student".center(60)
-    else
-      puts "Now we have #{@students.count} students".center(60)
-    end
-    name = STDIN.gets.chomp
+    print_number_of_students
+    name = $stdin.gets.chomp
+  end
+end
+
+def print_number_of_students
+  if @students.count < 2
+    puts "Now we have #{@students.count} student".center(60)
+  else
+    puts "Now we have #{@students.count} students".center(60)
   end
 end
 
@@ -106,9 +111,9 @@ def save_students(filename = 'students.csv')
   file.close
 end
 
-def load_students(filename)
+def load_students(_filename)
   @students = []
-  file = File.open(filename, 'r')
+  file = File.open('students.csv', 'r')
   file.readlines.each do |line|
     name, cohort = line.chomp.split(',')
     add_student(name, cohort.to_sym)
