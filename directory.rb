@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'csv'
 @students = []
 def print_menu
   puts '1. Input the students'
@@ -63,6 +64,7 @@ def add_student(name, cohort)
 end
 
 def input_students
+  students = []
   months = %w[january february march april may june july august september october november december]
   puts 'Please enter the names of the students'
   puts 'To finish, just hit return twice'
@@ -81,6 +83,7 @@ def input_students
     print_number_of_students
     name = $stdin.gets.chomp
   end
+  students
   puts 'The student has been entered'
 end
 
@@ -113,12 +116,10 @@ def print_students_list(students)
   end
 end
 
-def save_students(filename)
-  File.open(filename, 'w') do |file|
+def save_students(filename = 'students.csv')
+  CSV.open(filename, 'a') do |csv|
     @students.each do |student|
-      studen_data = [student[:name], student[:cohort]]
-      csv_line = studen_data.join(',')
-      file.puts csv_line
+      csv << [student[:name], student[:cohort]]
     end
   end
   puts 'Students have been saved'
@@ -126,13 +127,25 @@ end
 
 def load_students(filename)
   @students = []
-  File.open(filename, 'r') do |file|
-    file.readlines.each do |line|
-      name, cohort = line.chomp.split(',')
-      add_student(name, cohort.to_sym)
-    end
+  CSV.foreach(filename, 'r') do |row|
+    name = row[0]
+    cohort = row[1]
+    add_student(name, cohort.to_sym)
   end
   puts 'Students have been loaded'
+end
+
+def try_load_students(filename = 'students.csv')
+  filename = ARGV.first
+  filename = 'students.csv' if filename.nil?
+
+  if File.exist?(filename)
+    load_students(filename)
+    puts "Loaded #{@students.count} from #{filename}"
+  else
+    puts "Sorry, #{filename} doesn't exist."
+    exit
+  end
 end
 
 def print_footer(_students)
@@ -145,3 +158,5 @@ def print_footer(_students)
   end
 end
 interactive_menu
+try_load_students(filename)
+@students = input_students
