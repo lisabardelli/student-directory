@@ -16,7 +16,7 @@ end
 def interactive_menu
   loop do
     print_menu
-    process(gets.chomp)
+    process(STDIN.gets.chomp)
   end
 end
 
@@ -50,11 +50,11 @@ def input_students
   months = %w[january february march april may june july august september october november december]
   puts 'Please enter the names of the students'
   puts 'To finish, just hit return twice'
-  name = gets.gsub("\n", '')
+  name = STDIN.gets.gsub("\n", '')
 
   until name.empty?
     puts 'Please enter his/her cohort'
-    cohort = gets.gsub("\n", '')
+    cohort = STDIN.gets.gsub("\n", '')
     cohort = 'November' if cohort.empty?
     until months.include? cohort.chomp.downcase
       puts 'There must be a typo, please enter the cohort'
@@ -66,7 +66,7 @@ def input_students
     else
       puts "Now we have #{@students.count} students".center(60)
     end
-    name = gets.chomp
+    name = STDIN.gets.chomp
   end
 end
 
@@ -101,7 +101,7 @@ def save_students
   file.close
 end
 
-def load_students
+def load_students(_filename = 'students.csv')
   @students = []
   file = File.open('students.csv', 'r')
   file.readlines.each do |line|
@@ -109,6 +109,19 @@ def load_students
     @students << { name: name, cohort: cohort.to_sym }
   end
   file.close
+end
+
+def try_load_students
+  filename = ARGV.first
+  return if filename.nil?
+
+  if File.exist?(filename)
+    load_students(filename)
+    puts "Loaded #{@students.count} from #{filename}"
+  else
+    puts "Sorry, #{filename} doesn't exist."
+    exit
+  end
 end
 
 def print_footer(_students)
