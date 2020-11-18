@@ -29,7 +29,7 @@ def process(selection)
   when '3'
     save_students
   when '4'
-    load_students
+    try_load_students
   when '9'
     exit
   else
@@ -37,8 +37,8 @@ def process(selection)
   end
 end
 
-def print_header(students)
-  if students.count > 0
+def print_header(_students)
+  if @students.count.positive?
     puts 'The students of Makers Academy'.center(60)
     puts '-------------'.center(60)
   else
@@ -96,19 +96,19 @@ def print_students_list(students)
   end
 end
 
-def save_students
-  file = File.open('students.csv', 'w')
+def save_students(filename = 'students.csv')
+  file = File.open(filename, 'w')
   @students.each do |student|
-    student_data = [student[:name], student[:cohort]]
-    csv_line = student_data.join(',')
+    studen_data = [student[:name], student[:cohort]]
+    csv_line = studen_data.join(',')
     file.puts csv_line
   end
   file.close
 end
 
-def load_students(_filename = 'students.csv')
+def load_students(filename)
   @students = []
-  file = File.open('students.csv', 'r')
+  file = File.open(filename, 'r')
   file.readlines.each do |line|
     name, cohort = line.chomp.split(',')
     add_student(name, cohort.to_sym)
@@ -118,8 +118,7 @@ end
 
 def try_load_students
   filename = ARGV.first
-  return if filename.nil?
-
+  filename = 'students.csv' if filename.nil?
   if File.exist?(filename)
     load_students(filename)
     puts "Loaded #{@students.count} from #{filename}"
@@ -138,5 +137,4 @@ def print_footer(_students)
     puts "Overall, we have #{@students.count} great students".center(60)
   end
 end
-
 interactive_menu
