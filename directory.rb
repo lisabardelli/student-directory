@@ -1,22 +1,33 @@
+@students = []
+def print_menu
+  puts '1. Input the students'
+  puts '2. Show the students'
+  puts '9. Exit'
+end
+
+def show_students
+  print_header(@students)
+  print_students_list(@students)
+  print_footer(@students)
+end
+
 def interactive_menu
-  students = []
   loop do
-    puts '1. Input the students'
-    puts '2. Show the students'
-    puts '9. Exit'
-    selection = gets.chomp
-    case selection
-    when '1'
-      students = input_students
-    when '2'
-      print_header(students)
-      print(students)
-      print_footer(students)
-    when '9'
-      exit
-    else
-      puts "I don't know what you meant, try again"
-    end
+    print_menu
+    process(gets.chomp)
+  end
+end
+
+def process(selection)
+  case selection
+  when '1'
+    input_students
+  when '2'
+    show_students
+  when '9'
+    exit
+  else
+    puts "I don't know what you mean, try again"
   end
 end
 
@@ -30,7 +41,6 @@ def print_header(students)
 end
 
 def input_students
-  students = []
   months = %w[january february march april may june july august september october november december]
   puts 'Please enter the names of the students'
   puts 'To finish, just hit return twice'
@@ -44,18 +54,17 @@ def input_students
       puts 'There must be a typo, please enter the cohort'
       cohort = gets
     end
-    students << { name: name, cohort: cohort.chomp }
-    if students.count < 2
-      puts "Now we have #{students.count} student".center(60)
+    @students << { name: name, cohort: cohort.chomp }
+    if @students.count < 2
+      puts "Now we have #{@students.count} student".center(60)
     else
-      puts "Now we have #{students.count} students".center(60)
+      puts "Now we have #{@students.count} students".center(60)
     end
     name = gets.chomp
   end
-  students
 end
 
-def print(students)
+def print_students_list(students)
   students_by_cohort = {}
   students.each do |student|
     cohort = student[:cohort]
@@ -80,9 +89,9 @@ def print_footer(students)
   return if students.count < 1
 
   if students.count < 2
-    puts "Overall, we have #{students.count} great student".center(60)
+    puts "Overall, we have #{@students.count} great student".center(60)
   else
-    puts "Overall, we have #{students.count} great students".center(60)
+    puts "Overall, we have #{@students.count} great students".center(60)
   end
 end
 
