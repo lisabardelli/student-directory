@@ -3,6 +3,7 @@ def print_menu
   puts '1. Input the students'
   puts '2. Show the students'
   puts '3. Save the list to students.csv'
+  puts '4. Load the list from students.csv'
   puts '9. Exit'
 end
 
@@ -27,6 +28,8 @@ def process(selection)
     show_students
   when '3'
     save_students
+  when '4'
+    load_students
   when '9'
     exit
   else
@@ -34,8 +37,8 @@ def process(selection)
   end
 end
 
-def print_header(students)
-  if students.count > 0
+def print_header(_students)
+  if @students.count > 0
     puts 'The students of Makers Academy'.center(60)
     puts '-------------'.center(60)
   else
@@ -98,10 +101,20 @@ def save_students
   file.close
 end
 
-def print_footer(students)
-  return if students.count < 1
+def load_students
+  @students = []
+  file = File.open('students.csv', 'r')
+  file.readlines.each do |line|
+    name, cohort = line.chomp.split(',')
+    @students << { name: name, cohort: cohort.to_sym }
+  end
+  file.close
+end
 
-  if students.count < 2
+def print_footer(_students)
+  return if @students.count < 1
+
+  if @students.count < 2
     puts "Overall, we have #{@students.count} great student".center(60)
   else
     puts "Overall, we have #{@students.count} great students".center(60)
