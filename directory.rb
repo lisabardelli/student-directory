@@ -37,13 +37,17 @@ def process(selection)
   end
 end
 
-def print_header(_students)
-  if @students.count > 0
+def print_header(students)
+  if students.count > 0
     puts 'The students of Makers Academy'.center(60)
     puts '-------------'.center(60)
   else
     puts 'No students in the Makers Academy'
   end
+end
+
+def add_student(name, cohort)
+  @students << { name: name, cohort: cohort }
 end
 
 def input_students
@@ -53,6 +57,7 @@ def input_students
   name = STDIN.gets.gsub("\n", '')
 
   until name.empty?
+
     puts 'Please enter his/her cohort'
     cohort = STDIN.gets.gsub("\n", '')
     cohort = 'November' if cohort.empty?
@@ -60,7 +65,7 @@ def input_students
       puts 'There must be a typo, please enter the cohort'
       cohort = gets
     end
-    @students << { name: name, cohort: cohort.chomp }
+    add_student(name, cohort.chomp)
     if @students.count < 2
       puts "Now we have #{@students.count} student".center(60)
     else
@@ -94,8 +99,8 @@ end
 def save_students
   file = File.open('students.csv', 'w')
   @students.each do |student|
-    studen_data = [student[:name], student[:cohort]]
-    csv_line = studen_data.join(',')
+    student_data = [student[:name], student[:cohort]]
+    csv_line = student_data.join(',')
     file.puts csv_line
   end
   file.close
@@ -106,7 +111,7 @@ def load_students(_filename = 'students.csv')
   file = File.open('students.csv', 'r')
   file.readlines.each do |line|
     name, cohort = line.chomp.split(',')
-    @students << { name: name, cohort: cohort.to_sym }
+    add_student(name, cohort.to_sym)
   end
   file.close
 end
