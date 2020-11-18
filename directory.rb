@@ -13,6 +13,7 @@ def show_students
   print_header(@students)
   print_students_list(@students)
   print_footer(@students)
+  puts 'Students have been printed'
 end
 
 def interactive_menu
@@ -59,6 +60,7 @@ def input_students
   name = $stdin.gets.gsub("\n", '')
 
   until name.empty?
+
     puts 'Please enter his/her cohort'
     cohort = $stdin.gets.gsub("\n", '')
     cohort = 'November' if cohort.empty?
@@ -70,6 +72,7 @@ def input_students
     print_number_of_students
     name = $stdin.gets.chomp
   end
+  puts 'The student has been entered'
 end
 
 def print_number_of_students
@@ -101,24 +104,26 @@ def print_students_list(students)
   end
 end
 
-def save_students(filename = 'students.csv')
-  file = File.open(filename, 'w')
+def save_students
+  file = File.open('students.csv', 'w')
   @students.each do |student|
     studen_data = [student[:name], student[:cohort]]
     csv_line = studen_data.join(',')
     file.puts csv_line
   end
   file.close
+  puts 'Students have been saved'
 end
 
-def load_students(_filename)
+def load_students(filename)
   @students = []
-  file = File.open('students.csv', 'r')
+  file = File.open(filename, 'r')
   file.readlines.each do |line|
     name, cohort = line.chomp.split(',')
     add_student(name, cohort.to_sym)
   end
   file.close
+  puts 'Students have been loaded'
 end
 
 def try_load_students
