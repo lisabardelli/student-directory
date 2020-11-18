@@ -114,24 +114,24 @@ def print_students_list(students)
 end
 
 def save_students(filename)
-  file = File.open(filename, 'w')
-  @students.each do |student|
-    studen_data = [student[:name], student[:cohort]]
-    csv_line = studen_data.join(',')
-    file.puts csv_line
+  File.open(filename, 'w') do |file|
+    @students.each do |student|
+      studen_data = [student[:name], student[:cohort]]
+      csv_line = studen_data.join(',')
+      file.puts csv_line
+    end
   end
-  file.close
   puts 'Students have been saved'
 end
 
 def load_students(filename)
   @students = []
-  file = File.open(filename, 'r')
-  file.readlines.each do |line|
-    name, cohort = line.chomp.split(',')
-    add_student(name, cohort.to_sym)
+  File.open(filename, 'r') do |file|
+    file.readlines.each do |line|
+      name, cohort = line.chomp.split(',')
+      add_student(name, cohort.to_sym)
+    end
   end
-  file.close
   puts 'Students have been loaded'
 end
 
